@@ -5,7 +5,7 @@ export default class Player {
         this.surname = surname;
         this.lotteryNumbers = lotteryNumbers;
     }
-    getPlayerDetails = function()
+    getPlayerDetails()
     {
         return `${this.name} ${this.surname} [${this.lotteryNumbers.toString()}]`;
     }

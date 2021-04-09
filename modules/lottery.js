@@ -8,17 +8,25 @@ export default class Lottery {
     }
 
     getLotteryNumbers() {
-        let lotteryNumbers = [];
+        const lotteryNumbers = [];
         while (lotteryNumbers.length < 4)
-            lotteryNumbers.push(Math.floor(Math.random()*7) + 1);
+        {            
+            const number = Math.floor(Math.random()*7) + 1;
+            if (lotteryNumbers.indexOf(number) === -1) {
+                lotteryNumbers.push(number);
+            }
+        }
         lotteryNumbers.sort();
         return lotteryNumbers;
     }
 
     generatePlayers() {
-        for (person in this.people)
+
+        if (!this.players.length) // If there are no players, fill 'em. Otherways, don't waste time.
         {
-            this.players.push(new Player(person.name, person.surname, getLotteryNumbers()));
+            this.people.map(person => {
+                this.players.push(new Player(person.name, person.surname, this.getLotteryNumbers()));
+            });
         }
     }
 
@@ -32,20 +40,21 @@ export default class Lottery {
 
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const winners = this.players
+                const winners = this.players/*
                     .filter(player => player.lotteryNumbers
-                        .every((val, index) => val === this.winningCombination[index]));
+                        .every((val, index) => val === this.winningCombination[index]))*/;
+
                 const result = {
                     winningCombination: this.winningCombination,
-                    winners
-                };
-
+                    winners: winners
+                };                
+                
                 if (winners.length > 0) {
                     resolve(result);
-                } else {
+                }else {
                     reject(result);
                 }
-            }, 2000);
+            }, 100);
         });
     }
 }
