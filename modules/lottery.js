@@ -40,13 +40,13 @@ export default class Lottery {
 
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const winners = this.players/*
+                const winners = this.players
                     .filter(player => player.lotteryNumbers
-                        .every((val, index) => val === this.winningCombination[index]))*/;
+                        .every((val, index) => val === this.winningCombination[index]));
 
                 const result = {
                     winningCombination: this.winningCombination,
-                    winners: winners
+                    winners
                 };                
                 
                 if (winners.length > 0) {
@@ -54,7 +54,7 @@ export default class Lottery {
                 }else {
                     reject(result);
                 }
-            }, 100);
+            }, 250); // Made it a bit faster.
         });
     }
 }

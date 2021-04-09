@@ -12,6 +12,7 @@ const lottery = new Lottery(politicians);
 buttonStartEl.addEventListener("click", () => {
     buttonStartEl.disabled = true;
     buttonStartEl.innerHTML = "Lottery drawing in progress... ";
+    winnersEl.innerHTML = "";
     lotteryResultsEl.style.display = "none";
     lottery.startDrawing()
         .then(result => {
@@ -19,17 +20,18 @@ buttonStartEl.addEventListener("click", () => {
             winnersMessageEl.innerHTML = "Winners:";
             winningCombinationEl.innerHTML = `Winning combination was: ${result.winningCombination}`;
 
-            console.log(result.winners);
-            
-            result.winners.foreach()
-            {
+            let winnerList = result.winners;
+
+            console.log(winnerList);
+
+            winnerList.forEach(winner => {
                 winnersEl.innerHTML += `<li>${winner.getPlayerDetails()}</li>`;
-            }
+            })
         })
         .catch(result => {
             winnersEl.style.display = "none";
             winnersMessageEl.innerHTML = "There are no winners.";
-            winningCombinationEl.innerHTML = `Nobody had combo: ${result[0]}`;
+            winningCombinationEl.innerHTML = `Nobody had combo: ${result.winningCombination}`;
         })
         .finally(() => {
             buttonStartEl.disabled = false;
